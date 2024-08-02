@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
         while (true) {
             System.out.print("$ ");
@@ -11,6 +11,10 @@ public class Main {
 
             if ("exit 0".equals(input)) {
                 System.exit(0);
+            } else if (input.startsWith("echo")) {
+                String echoOutput = input.replace("echo ", "");
+                System.out.println(echoOutput);
+
             } else {
                 System.out.println(input + ": command not found");
             }
