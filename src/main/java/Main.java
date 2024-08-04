@@ -15,6 +15,16 @@ public class Main {
                 String echoOutput = input.replace("echo ", "");
                 System.out.println(echoOutput);
 
+            } else if (input.startsWith("type")) {
+                String commandToInspect = input.replace("type ", "");
+                switch (commandToInspect) {
+                    case "echo", "exit", "type":
+                        System.out.println(commandToInspect + " is a shell builtin");
+                        break;
+                    default:
+                        System.out.println(commandToInspect + ": not found");
+                }
+
             } else {
                 System.out.println(input + ": command not found");
             }
