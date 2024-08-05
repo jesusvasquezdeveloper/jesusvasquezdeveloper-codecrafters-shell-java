@@ -1,4 +1,5 @@
-import java.io.File;
+import java.io.*;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -29,7 +30,29 @@ public class Main {
                     System.out.println(commandToInspect + ": not found");
                 }
             } else {
-                System.out.println(input + ": command not found");
+                String[] inputArgs = input.split(" ");
+                String command = inputArgs[0];
+                String[] pathCommands = System.getenv("PATH").split(":");
+
+                String commandPath = findPathCommand(pathCommands, command);
+
+                if (commandPath!= null) {
+                    try {
+                        inputArgs[0] = commandPath;
+
+                        InputStream inputStream = Runtime.getRuntime().exec(
+                                inputArgs
+                        ).getInputStream();
+
+                        inputStream.transferTo(System.out);
+
+                    } catch (IOException e) {
+                        System.out.println(e);
+                    }
+
+                } else {
+                    System.out.println(input + ": command not found");
+                }
             }
         }
     }
