@@ -29,8 +29,13 @@ public class Main {
                 String path = input.split(" ")[1];
                 Path dirToChange = Path.of(path);
 
-                if (dirToChange.toFile().exists()) {
-                    currentDir = dirToChange.toString();
+               if (!dirToChange.isAbsolute()) {
+                   dirToChange = Path.of(currentDir, path).normalize();
+               }
+
+               if (dirToChange.toFile().exists()) {
+                   currentDir = dirToChange.toString();
+
                 } else {
                     System.out.println("cd: " + dirToChange + ": No such file or directory");
                 }
@@ -85,4 +90,5 @@ public class Main {
         }
         return null;
     }
+
 }
