@@ -1,9 +1,13 @@
 import java.io.*;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        List<String> SHELL_BUILTIN = List.of("echo", "type", "exit", "pwd");
+
+
 
         while (true) {
             System.out.print("$ ");
@@ -17,12 +21,15 @@ public class Main {
                 String echoOutput = input.replace("echo ", "");
                 System.out.println(echoOutput);
 
+            } else if ("pwd".equals(input)) {
+                System.out.println(System.getProperty("user.dir"));
+
             } else if (input.startsWith("type")) {
                 String commandToInspect = input.replace("type ", "");
                 String[] pathCommands = System.getenv("PATH").split(":");
 
                 String commandPath;
-                if (commandToInspect.equals("echo") || commandToInspect.equals("exit") || commandToInspect.equals("type")) {
+                if (SHELL_BUILTIN.contains(commandToInspect)) {
                     System.out.println(commandToInspect + " is a shell builtin");
                 } else if ((commandPath = findPathCommand(pathCommands, commandToInspect))!= null) {
                     System.out.println(commandToInspect + " is " + commandPath);
