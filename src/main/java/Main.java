@@ -26,7 +26,8 @@ public class Main {
                 System.out.println(currentDir);
 
             } else if (input.startsWith("cd")) {
-                String path = input.split(" ")[1];
+                String homeDir = System.getenv("HOME");
+                String path = input.split(" ")[1].replace("~", homeDir);
                 Path dirToChange = Path.of(path);
 
                if (!dirToChange.isAbsolute()) {
