@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -7,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         List<String> SHELL_BUILTIN = List.of("echo", "type", "exit", "pwd");
 
-
+        String currentDir = System.getProperty("user.dir");
 
         while (true) {
             System.out.print("$ ");
@@ -22,7 +23,17 @@ public class Main {
                 System.out.println(echoOutput);
 
             } else if ("pwd".equals(input)) {
-                System.out.println(System.getProperty("user.dir"));
+                System.out.println(currentDir);
+
+            } else if (input.startsWith("cd")) {
+                String path = input.split(" ")[1];
+                Path dirToChange = Path.of(path);
+
+                if (dirToChange.toFile().exists()) {
+                    currentDir = dirToChange.toString();
+                } else {
+                    System.out.println("cd: " + dirToChange + ": No such file or directory");
+                }
 
             } else if (input.startsWith("type")) {
                 String commandToInspect = input.replace("type ", "");
